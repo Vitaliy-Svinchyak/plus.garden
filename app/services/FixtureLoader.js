@@ -6,40 +6,39 @@
  * Licensed under MIT (https://github.com/linkshare/plus.garden/blob/master/LICENSE)
  * ============================================================================== */
 
- var FixtureLoader = function (container, logger) {
+const FixtureLoader = function (container, logger) {
 
-    this.load = function (tags) {
-        this.loaders(tags).forEach(function (loader) {
-            loader.load();
-        });
+    this.load = async function (tags) {
+        for (const loader of this.loaders(tags)) {
+            await loader.load()
+        }
     }
 
-    this.drop = function (tags) {
-        this.loaders(tags).forEach(function (loader) {
-            loader.drop();
-        });
+    this.drop = async function (tags) {
+        for (const loader of this.loaders(tags)) {
+            await loader.drop()
+        }
     }
 
-    this.reload = function (tags) {
-        this.drop(tags);
-        this.load(tags);
+    this.reload = async function (tags) {
+        await this.drop(tags)
+        await this.load(tags)
     }
 
-    this.loaders = function(tags) {
-        var loaders = [];
-
-        tags = tags || ['garden.js', 'fixtures', 'loader'];
-        loaders = container.find(tags);
+    this.loaders = function (tags) {
+        tags = tags || ['garden.js', 'fixtures', 'loader']
+        loaders = container.find(tags)
 
         if (loaders.length == 0) {
-            logger.warn('fixture loader module not found');
-            logger.info('Visit https://github.com/linkshare/plus.garden/blob/master/docs/modules.md to get necessary module');
+            logger.warn('fixture loader module not found')
+            logger.info(
+                'Visit https://github.com/linkshare/plus.garden/blob/master/docs/modules.md to get necessary module')
         }
 
-        return loaders;
+        return loaders
     }
 
 }
 
-module.exports = FixtureLoader;
-module.exports.$inject = ['container', 'Logger'];
+module.exports = FixtureLoader
+module.exports.$inject = ['container', 'Logger']

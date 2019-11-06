@@ -1,63 +1,48 @@
 #!/usr/bin/env node
 
-/* =================================================================================
- * @author Vladimir Polyakov
- * @author Slava Hatnuke
- * =================================================================================
- * Copyright (c) 2015 Rakuten Marketing
- * Licensed under MIT (https://github.com/linkshare/plus.garden/blob/master/LICENSE)
- * ============================================================================== */
+var GardenCli = function (options) {
 
- var GardenCli = function (options) {
+    const merge = require('merge')
 
-    var merge = require('merge');
-    var path = require('path');
-
-    var def = {
-        root_dir: process.cwd()
+    const def = {
+        root_dir: process.cwd(),
     }
 
-    options = options || {};
+    options = options || {}
 
-    merge(this, def, options);
+    merge(this, def, options)
 
-    this.run = function () {
+    this.run = async function () {
 
-        var commander = require('commander');
-        var Garden = require('./Garden');
-        var wait = require('wait.for');
+        const commander = require('commander')
+        const Garden = require('./Garden')
+        commander.version(require(Garden.getDir() + '/package.json').version).
+            option('-e, --env <name>', 'environment: test, dev, ...').
+            option('-d, --debug', 'debug mode')
 
-        wait.launchFiber(function () {
+        commander.parse(process.argv)
 
-            commander
-                .version(require(Garden.getDir() + '/package.json').version)
-                .option('-e, --env <name>', 'environment: test, dev, ...')
-                .option('-d, --debug', 'debug mode');
+        var garden = new Garden(this.root_dir, commander.env || 'test')
 
-            commander.parse(process.argv);
+        // define commander as a service
+        garden.set('Commander', commander)
+        garden.set('GardenCli', this)
 
-            var garden = new Garden(this.root_dir, commander.env || 'test');
+        await garden.init()
 
-            // define commander as a service
-            garden.set('Commander', commander);
-            garden.set('GardenCli', this);
+        // run commands
+        commander.parse(process.argv)
 
-            garden.init();
+        // show help
+        if (!commander.args.length)
+            commander.help()
 
-            // run commands
-            commander.parse(process.argv);
-
-            // show help
-            if (!commander.args.length)
-                commander.help();
-
-            // exit
-            process.exit(0);
-        }.bind(this));
+        // exit
+        process.exit(0)
 
     }
-};
+}
 
-GardenCli.Garden = require('./Garden');
+GardenCli.Garden = require('./Garden')
 
-module.exports = GardenCli;
+module.exports = GardenCli

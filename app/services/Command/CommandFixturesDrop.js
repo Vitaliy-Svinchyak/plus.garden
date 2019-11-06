@@ -7,8 +7,8 @@
 
  var CommandFixturesDrop = function (loader, logger) {
 
-    this.run = function () {
-        loader.drop();
+    this.run = async function () {
+        await loader.drop();
         logger.info('done');
     }
 

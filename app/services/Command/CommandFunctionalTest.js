@@ -1,14 +1,5 @@
-/* =================================================================================
- * @author Vladimir Polyakov
- * @author Slava Hatnuke
- * =================================================================================
- * Copyright (c) 2015 Rakuten Marketing
- * Licensed under MIT (https://github.com/linkshare/plus.garden/blob/master/LICENSE)
- * ============================================================================== */
-
 var CommandFunctionalTest = function (command, config, commander, logger) {
 
-    var wait = require('wait.for');
     var path = require('path');
     var execSync = require('child_process').execSync;
 
@@ -53,7 +44,7 @@ var CommandFunctionalTest = function (command, config, commander, logger) {
         return cmd;
     }
 
-    this.run = function (name) {
+    this.run = async function (name) {
         name = name || defaultTestDir;
 
         var npmBin = execSync('npm bin').toString().replace(/(\r\n|\n|\r)/gm, '');
@@ -74,7 +65,7 @@ var CommandFunctionalTest = function (command, config, commander, logger) {
         cmd = appendOptionRequire(cmd, requireDir);
         cmd = appendOptionFormat(cmd);
 
-        wait.forMethod(command, 'run', cmd);
+        await command.run(cmd)
     };
 
 };

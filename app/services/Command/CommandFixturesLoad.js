@@ -7,8 +7,8 @@
 
  var CommandFixturesLoad = function (loader, logger) {
 
-    this.run = function () {
-        loader.reload();
+    this.run = async function () {
+        await loader.reload();
         logger.info('done');
     }
 
