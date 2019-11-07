@@ -37,9 +37,6 @@ var GardenCli = function (options) {
         if (!commander.args.length)
             commander.help()
 
-        // exit
-        process.exit(0)
-
     }
 }
 
