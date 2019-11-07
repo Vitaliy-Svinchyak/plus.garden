@@ -2,7 +2,6 @@
 
     var path = require('path');
 
-    this.wait = require('wait.for');
     this.dir = dir || process.cwd();
     this.garden_dir = Garden.getDir();
 
@@ -73,7 +72,5 @@ Garden.getDir = function () {
     var path = require('path');
     return path.resolve(__dirname + '/../../');
 }
-
-Garden.wait = require('wait.for');
 
 module.exports = Garden;

@@ -10,7 +10,7 @@
 
 var Logger = function (config) {
 
-    var fse = require('fs-extra');
+    var fs = require('fs');
 
     var path = config.get('logger:path');
     var level = config.get('logger:level');
@@ -21,8 +21,8 @@ var Logger = function (config) {
 
         var dir = require('path').dirname(path);
 
-        if (!fse.existsSync(dir)) {
-            fse.mkdirsSync(dir);
+        if (!fs.existsSync(dir)) {
+            fs.mkdirSync(dir);
         }
 
         transports.push(new winston.transports.File({ timestamp: true, filename: path }));
