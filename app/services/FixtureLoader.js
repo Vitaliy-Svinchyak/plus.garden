@@ -27,7 +27,7 @@ const FixtureLoader = function (container, logger) {
 
     this.loaders = function (tags) {
         tags = tags || ['garden.js', 'fixtures', 'loader']
-        loaders = container.find(tags)
+        const loaders = container.find(tags)
 
         if (loaders.length == 0) {
             logger.warn('fixture loader module not found')

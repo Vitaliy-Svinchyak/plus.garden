@@ -24,7 +24,7 @@
     "test": "./garden.js test"
   },
   "dependencies": {
-    "commander": "^2.9.0",
+    "commander": "2.15.1",
     "cucumber": "^2.0.0-rc.8",
     "fs-extra": "^2.0.0",
     "merge": "^1.2.0",
