@@ -12,7 +12,7 @@ var GardenCli = function (options) {
 
     merge(this, def, options)
 
-    this.run = async function () {
+    this.run = function () {
 
         const commander = require('commander')
         const Garden = require('./Garden')
@@ -28,7 +28,7 @@ var GardenCli = function (options) {
         garden.set('Commander', commander)
         garden.set('GardenCli', this)
 
-        await garden.init()
+        garden.init()
 
         // run commands
         commander.parse(process.argv)

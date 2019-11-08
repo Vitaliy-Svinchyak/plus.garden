@@ -50,7 +50,7 @@
         this.reloadAppConfig();
     }
 
-    this.init = async function () {
+    this.init = function () {
 
         this.set('Garden', this);
 
