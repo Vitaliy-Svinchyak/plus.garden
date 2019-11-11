@@ -35,19 +35,22 @@ var Command = function (dir, env, replacement, commander) {
     }
 
     this.run = function (command, next) {
+        let cmd = 'NODE_ENV=' + this.env + ' ' + this.prepareOptions() + command
 
-        var cmd = command;
-        cmd = 'NODE_ENV=' + this.env + ' ' + this.prepareOptions() + cmd;
+        const child = exec(this.prepare(cmd), {cwd: this.dir, maxBuffer: 50000 * 1024}, function (err) {
+            if (err) {
+                return process.exit(err.code)
+            }
+            if (!next) {
+                return process.exit(0)
+            }
 
-        var child = exec(this.prepare(cmd), {cwd: this.dir, maxBuffer: 50000*1024}, function (err) {
-            if (err) return process.exit(err.code);
-            next(err);
-        });
+            next(err)
+        })
 
-        child.stdout.pipe(process.stdout);
-        child.stderr.pipe(process.stderr);
-        child.stdin.pipe(process.stdin);
-
+        child.stdout.pipe(process.stdout)
+        child.stderr.pipe(process.stderr)
+        child.stdin.pipe(process.stdin)
     }
 
     this.prepareOptions = function () {
