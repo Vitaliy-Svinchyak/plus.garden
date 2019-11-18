@@ -36,6 +36,5 @@ module.exports = function (garden) {
         .description('run functional test/tests')
         .action(async function (name) {
             await garden.get('CommandFunctionalTest').run(name)
-            process.exit(0)
         })
 }
