@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "commander": "^2.15.1",
-    "cucumber": "^2.0.0-rc.8",
+    "cucumber": "^3.2.1",
     "merge": "^1.2.0",
     "plus.application": "^1.1.14",
     "winston": "2.3.1"
